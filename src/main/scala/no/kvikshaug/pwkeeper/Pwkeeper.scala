@@ -4,6 +4,7 @@ import javax.crypto.Cipher
 import javax.crypto.spec.{SecretKeySpec, IvParameterSpec}
 import java.io.{BufferedOutputStream, FileOutputStream, BufferedInputStream, FileInputStream, File}
 import java.io.ByteArrayOutputStream
+import java.util.Scanner
 
 object Pwkeeper {
 
@@ -21,12 +22,12 @@ object Pwkeeper {
     }
 
     if(args.size != 1) {
-      println("One argument, please.")
       return
     }
 
     print("Enter key: ")
-    val userPassword = System.console.readPassword
+    val userPassword = new Scanner(System.in).nextLine.toCharArray
+    println()
     var userKey: Array[Char] = new Array[Char](16)
     if(userPassword.size == 8) {
       userKey = (new String(userPassword) + new String(userPassword)).toCharArray
@@ -37,20 +38,24 @@ object Pwkeeper {
     val key = new SecretKeySpec(new String(userKey).getBytes, algorithm)
 
     if(args(0).equals("decrypt")) {
-      // decrypt encrypted file
-      val (data, iv) = readEncryptedFile(encryptedFile)
-      val decryptedData = decrypt(data, iv, key)
+      try {
+        // decrypt encrypted file
+        val (data, iv) = readEncryptedFile(encryptedFile)
+        val decryptedData = decrypt(data, iv, key)
 
-      // write it to a temporary file
-      writeFile(decryptedData, temporaryFile)
-      println("Tempfile is now ready for modifications...")
+        // write it to a temporary file
+        writeFile(decryptedData, temporaryFile)
+      } catch {
+        case e => println("Decryption failed, probably wrong key.")
+        System.exit(-1)
+      }
     } else if(args(0).equals("encrypt")) {
+      print("Encrypting and saving... ")
       // encrypt the temporary file and overwrite the previous encrypted file
       val data = readFile(temporaryFile)
       val encData = encrypt(data, key)
       writeFile(encData, encryptedFile)
-      temporaryFile.delete
-      println("Saved encrypted file.")
+      println("OK.")
     } else {
       println("Wrong argument.")
     }
