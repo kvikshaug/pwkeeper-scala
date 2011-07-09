@@ -1,22 +1,19 @@
+package no.kvikshaug.pwkeeper
+
 object Pwgen {
   val r = new java.util.Random
-  val defaultPwLength = 10
 
-  def main(args: Array[String]): Unit = {
-    val pwLength = if(args.length > 0) args(0).toInt
-                   else defaultPwLength
-    for(i <- 1 to pwLength) {
+  def generate(len: Int = 10) = {
+    val sb = new StringBuilder
+    for(i <- 1 to len) {
       // we'll make it 1/3rd for lower, upper or number char
-      val c = r.nextInt(3)
-      if(c == 0) {
-        print(randomLowerChar)
-      } else if(c == 1) {
-        print(randomUpperChar)
-      } else if(c == 2) {
-        print(randomNumber)
+      r.nextInt(3) match {
+        case 0 => sb.append(randomLowerChar)
+        case 1 => sb.append(randomUpperChar)
+        case 2 => sb.append(randomNumber)
       }
     }
-    println()
+    sb.toString
   }
 
   def randomLowerChar: Char = {
