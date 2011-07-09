@@ -2,11 +2,14 @@ package no.kvikshaug.pwkeeper
 
 import java.io.{File, FileNotFoundException}
 import java.util.Scanner
+import com.codahale.jerkson.Json._
 
 object Pwkeeper {
 
   val encryptedFile = new File("data")
   val tmpFile = new File("tmp")
+
+  var passwords: List[Password] = Nil
 
   def main(args: Array[String]): Unit = {
     try {
