@@ -16,15 +16,7 @@ object Pwgen {
     sb.toString
   }
 
-  def randomLowerChar: Char = {
-    return (r.nextInt(25) + 97).toChar
-  }
-
-  def randomUpperChar: Char = {
-    return (r.nextInt(25) + 65).toChar
-  }
-
-  def randomNumber: Char = {
-    return (r.nextInt(10) + 48).toChar
-  }
+  def randomLowerChar = (r.nextInt(25) + 97).toChar
+  def randomUpperChar = (r.nextInt(25) + 65).toChar
+  def randomNumber = (r.nextInt(10) + 48).toChar
 }
