@@ -32,11 +32,6 @@ object Crypt {
     c.init(Cipher.ENCRYPT_MODE, readKey);
     val encrypted = c.doFinal(data);
     c.getIV ++ encrypted
-    /*val iv = c.getIV
-    val out = new ByteArrayOutputStream
-    out.write(iv, 0, iv.size)
-    out.write(encData, 0, encData.size)
-    out.toByteArray*/
   }
 
 }
