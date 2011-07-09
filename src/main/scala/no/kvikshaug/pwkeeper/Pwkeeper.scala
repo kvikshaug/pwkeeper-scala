@@ -17,9 +17,8 @@ object Pwkeeper {
         case "add" :: Nil             => add()
         case "edit" :: Nil            => read
         case "save" :: Nil            => save
-        case "help" :: Nil            => println(help)
         case Nil                      => search()
-        case _ => println("Wrong usage.")
+        case _                        => println(help)
       }
     } catch {
       case e => println("Operation failed: " + e)
