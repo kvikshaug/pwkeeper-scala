@@ -9,8 +9,6 @@ object Pwkeeper {
   val encryptedFile = new File("data")
   val tmpFile = new File("tmp")
 
-  var passwords: List[Password] = Nil
-
   def main(args: Array[String]): Unit = {
     try {
       args.toList match {
@@ -29,7 +27,12 @@ object Pwkeeper {
     }
   }
 
-  def search() {}
+  def readPasswords = parse[List[Password]](Crypt.decrypt(IO.read(encryptedFile)))
+
+  def search() {
+    val passwords = readPasswords
+    // TODO: jcurses?
+  }
 
   def add {
     val s = new Scanner(System.in)
@@ -41,9 +44,7 @@ object Pwkeeper {
     if(!userPw.isEmpty) {
       pw = userPw
     }
-    val decryptedData = Crypt.decrypt(IO.read(encryptedFile))
-    passwords = Password(usage, pw.toList) :: parse[List[Password]](decryptedData)
-    val json = generate(passwords)
+    val json = generate(Password(usage, pw.toList) :: readPasswords)
     val encData = Crypt.encrypt(json.getBytes)
     IO.write(encData, encryptedFile)
   }
