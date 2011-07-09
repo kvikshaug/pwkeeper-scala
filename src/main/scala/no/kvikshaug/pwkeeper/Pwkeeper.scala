@@ -1,14 +1,12 @@
 package no.kvikshaug.pwkeeper
 
-import javax.crypto.Cipher
-import javax.crypto.spec.{SecretKeySpec, IvParameterSpec}
-import java.io.{BufferedOutputStream, FileOutputStream, BufferedInputStream, FileInputStream, File}
-import java.io.ByteArrayOutputStream
+import java.io.{File, FileNotFoundException}
 import java.util.Scanner
 
 object Pwkeeper {
 
   val encryptedFile = new File("data")
+  val tmpFile = new File("tmp")
 
   def main(args: Array[String]): Unit = {
     args.toList match {
@@ -22,34 +20,25 @@ object Pwkeeper {
     }
   }
 
-  def read {
-    if(!encryptedFile.exists) {
-      println("The expected encrypted file doesn't exist at '" + encryptedFile.getAbsolutePath + "'.")
-      return
-    }
+  def search() {}
 
+  def read {
     try {
       // decrypt the file and write it to a temporary file
-      val decryptedData = Crypt.readAndDecrypt(encryptedFile)
-      writeFile(decryptedData, "tmp")
+      val decryptedData = Crypt.decrypt(IO.read(encryptedFile))
+      IO.write(decryptedData, tmpFile)
+      println()
     } catch {
-      case e => println("Decryption failed: " + e)
+      case e: FileNotFoundException => println("The expected encrypted file doesn't exist at '" +
+        encryptedFile.getAbsolutePath + "'.")
+      case e => println("Decryption failed: " + e); System.exit(-1)
     }
   }
 
   def save {
     // encrypt the temporary file and overwrite the previous encrypted file
-    val data = readFile(temporaryFile)
-    val encData = encrypt(data, key)
-    writeFile(encData, encryptedFile)
-  }
-
-  def writeFile(array: Array[Byte], f: File) = {
-    if(!f.exists) {
-      f.createNewFile
-    }
-    val b = new BufferedOutputStream(new FileOutputStream(f))
-    b.write(array, 0, array.size)
-    b.close
+    val data = IO.read(tmpFile)
+    val encData = Crypt.encrypt(data)
+    IO.write(encData, encryptedFile)
   }
 }
