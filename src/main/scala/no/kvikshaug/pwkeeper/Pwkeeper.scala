@@ -11,8 +11,8 @@ object Pwkeeper {
   def main(args: Array[String]): Unit = {
     try {
       args.toList match {
-        case "generate" :: Nil        => println(Pwgen.generate())
-        case "generate" :: len :: Nil => println(Pwgen.generate(len.toInt))
+        case "generate" :: Nil        => println(new String(Pwgen.generate()))
+        case "generate" :: len :: Nil => println(new String(Pwgen.generate(len.toInt)))
         case "search" :: Nil          => search()
         case "add" :: Nil             => add()
         case "edit" :: Nil            => read

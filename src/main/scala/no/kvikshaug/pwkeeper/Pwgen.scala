@@ -13,7 +13,7 @@ object Pwgen {
         case 2 => sb.append(randomNumber)
       }
     }
-    sb.toString
+    sb.toString.getBytes
   }
 
   def randomLowerChar = (r.nextInt(25) + 97).toChar
