@@ -16,7 +16,7 @@ object Pwkeeper {
         case "search" :: Nil          => search()
         case "add" :: Nil             => add()
         case "edit" :: Nil            => read
-        case "save" :: Nil            => save
+        case "save" :: Nil            => write
         case Nil                      => search()
         case _                        => println(help)
       }
@@ -37,7 +37,7 @@ object Pwkeeper {
     println()
   }
 
-  def save {
+  def write {
     // encrypt the temporary file and overwrite the previous encrypted file
     val data = IO.read(tmpFile)
     val encData = Crypt.encrypt(data)
