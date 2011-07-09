@@ -7,7 +7,7 @@ import java.util.Scanner
 object Crypt {
 
   // We'll use the AES (256-bit key) cipher with cipher block chaining
-  // and a 16-bit initialization vector, appended to the end of the file.
+  // and a 16-bit initialization vector, prepended at the start of the file.
   val cipher = "AES/CBC/PKCS5PADDING"
   val algorithm = "AES"
   val ivLength = 16
