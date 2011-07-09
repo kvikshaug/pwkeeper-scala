@@ -13,9 +13,11 @@ object Pwkeeper {
       args.toList match {
         case "generate" :: Nil        => println(Pwgen.generate())
         case "generate" :: len :: Nil => println(Pwgen.generate(len.toInt))
-        case "read" :: Nil            => read
-        case "save" :: Nil            => save
         case "search" :: Nil          => search()
+        case "add" :: Nil             => add()
+        case "edit" :: Nil            => read
+        case "save" :: Nil            => save
+        case "help" :: Nil            => println(help)
         case Nil                      => search()
         case _ => println("Wrong usage.")
       }
@@ -26,6 +28,8 @@ object Pwkeeper {
   }
 
   def search() {}
+
+  def add() {}
 
   def read {
     // decrypt the file and write it to a temporary file
@@ -40,4 +44,14 @@ object Pwkeeper {
     val encData = Crypt.encrypt(data)
     IO.write(encData, encryptedFile)
   }
+
+  val help = """Arguments:
+
+generate     - generate a password with default length (currently 25)
+generate <n> - generate a password with length n
+search       - search for a password (default if no argument)
+add          - add a new password to the file
+edit         - decrypt and save contents to a temporary file for manual editing
+save         - encrypt and save the contents of the temporary file"""
+
 }
