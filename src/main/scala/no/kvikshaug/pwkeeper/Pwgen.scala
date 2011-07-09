@@ -3,7 +3,7 @@ package no.kvikshaug.pwkeeper
 object Pwgen {
   val r = new java.util.Random
 
-  def generate(len: Int = 10) = {
+  def generate(len: Int = 25) = {
     val sb = new StringBuilder
     for(i <- 1 to len) {
       // we'll make it 1/3rd for lower, upper or number char
