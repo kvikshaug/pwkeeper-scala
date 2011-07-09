@@ -60,6 +60,7 @@ object Pwkeeper {
     val data = IO.read(tmpFile)
     val encData = Crypt.encrypt(data)
     IO.write(encData, encryptedFile)
+    tmpFile.delete
   }
 
   val help = """Arguments:
