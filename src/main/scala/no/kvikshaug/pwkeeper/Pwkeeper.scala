@@ -52,7 +52,7 @@ object Pwkeeper {
     // decrypt the file and write it to a temporary file
     val decryptedData = Crypt.decrypt(IO.read(encryptedFile))
     IO.write(decryptedData, tmpFile)
-    println()
+    println(tmpFile.getAbsolutePath)
   }
 
   def save {
