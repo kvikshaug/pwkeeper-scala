@@ -17,7 +17,7 @@ object Pwkeeper {
         case "generate" :: Nil        => println(new String(Pwgen.generate()))
         case "generate" :: len :: Nil => println(new String(Pwgen.generate(len.toInt)))
         case "search" :: Nil          => search()
-        case "add" :: Nil             => add()
+        case "add" :: Nil             => add
         case "edit" :: Nil            => read
         case "save" :: Nil            => write
         case Nil                      => search()
@@ -31,7 +31,22 @@ object Pwkeeper {
 
   def search() {}
 
-  def add() {}
+  def add {
+    val s = new Scanner(System.in)
+    print("Usage for the new password: ")
+    val usage = s.nextLine
+    var pw = Pwgen.generate()
+    print("Password [" + new String(pw) + "]: ")
+    val userPw = s.nextLine.getBytes
+    if(!userPw.isEmpty) {
+      pw = userPw
+    }
+    val decryptedData = Crypt.decrypt(IO.read(encryptedFile))
+    passwords = Password(usage, pw.toList) :: parse[List[Password]](decryptedData)
+    val json = generate(passwords)
+    val encData = Crypt.encrypt(json.getBytes)
+    IO.write(encData, encryptedFile)
+  }
 
   def read {
     // decrypt the file and write it to a temporary file
