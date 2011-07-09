@@ -18,8 +18,8 @@ object Pwkeeper {
         case "generate" :: len :: Nil => println(new String(Pwgen.generate(len.toInt)))
         case "search" :: Nil          => search()
         case "add" :: Nil             => add
-        case "edit" :: Nil            => read
-        case "save" :: Nil            => write
+        case "edit" :: Nil            => edit
+        case "save" :: Nil            => save
         case Nil                      => search()
         case _                        => println(help)
       }
@@ -48,14 +48,14 @@ object Pwkeeper {
     IO.write(encData, encryptedFile)
   }
 
-  def read {
+  def edit {
     // decrypt the file and write it to a temporary file
     val decryptedData = Crypt.decrypt(IO.read(encryptedFile))
     IO.write(decryptedData, tmpFile)
     println()
   }
 
-  def write {
+  def save {
     // encrypt the temporary file and overwrite the previous encrypted file
     val data = IO.read(tmpFile)
     val encData = Crypt.encrypt(data)
