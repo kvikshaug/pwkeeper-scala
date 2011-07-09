@@ -8,75 +8,40 @@ import java.util.Scanner
 
 object Pwkeeper {
 
-  val clearTextFile = new File("orig")
   val encryptedFile = new File("data")
-  val temporaryFile = new File("tmp")
-
-  val cipher = "AES/CBC/PKCS5PADDING"
-  val algorithm = "AES"
 
   def main(args: Array[String]): Unit = {
+    args.toList match {
+      case "generate" :: Nil        => println(Pwgen.generate())
+      case "generate" :: len :: Nil => println(Pwgen.generate(len.toInt))
+      case "read" :: Nil     => read
+      case "save" :: Nil     => save
+      case "search" :: Nil          => search()
+      case Nil                      => search()
+      case _ => println("Wrong usage.")
+    }
+  }
+
+  def read {
     if(!encryptedFile.exists) {
-      println("There is no encrypted file.")
+      println("The expected encrypted file doesn't exist at '" + encryptedFile.getAbsolutePath + "'.")
       return
     }
 
-    if(args.size != 1) {
-      return
-    }
-
-    print("Enter key: ")
-    val userPassword = new Scanner(System.in).nextLine.toCharArray
-    println()
-    var userKey: Array[Char] = new Array[Char](16)
-    if(userPassword.size == 8) {
-      userKey = (new String(userPassword) + new String(userPassword)).toCharArray
-    } else {
-      // if not 16, then just try, and probably throw exception
-      userKey = userPassword
-    }
-    val key = new SecretKeySpec(new String(userKey).getBytes, algorithm)
-
-    if(args(0).equals("decrypt")) {
-      try {
-        // decrypt encrypted file
-        val (data, iv) = readEncryptedFile(encryptedFile)
-        val decryptedData = decrypt(data, iv, key)
-
-        // write it to a temporary file
-        writeFile(decryptedData, temporaryFile)
-      } catch {
-        case e => println("Decryption failed, probably wrong key.")
-        System.exit(-1)
-      }
-    } else if(args(0).equals("encrypt")) {
-      print("Encrypting and saving... ")
-      // encrypt the temporary file and overwrite the previous encrypted file
-      val data = readFile(temporaryFile)
-      val encData = encrypt(data, key)
-      writeFile(encData, encryptedFile)
-      println("OK.")
-    } else {
-      println("Wrong argument.")
+    try {
+      // decrypt the file and write it to a temporary file
+      val decryptedData = Crypt.readAndDecrypt(encryptedFile)
+      writeFile(decryptedData, "tmp")
+    } catch {
+      case e => println("Decryption failed: " + e)
     }
   }
 
-  def readFile(f: File): Array[Byte] = {
-    val in = new BufferedInputStream(new FileInputStream(f))
-    val data = new Array[Byte]((f.length).asInstanceOf[Int])
-    in.read(data, 0, data.length)
-    in.close
-    data
-  }
-
-  def readEncryptedFile(f: File):(Array[Byte], Array[Byte]) = {
-    val in = new BufferedInputStream(new FileInputStream(f))
-    val iv = new Array[Byte](16)
-    in.read(iv, 0, iv.size)
-    val data = new Array[Byte]((f.length - 16).asInstanceOf[Int])
-    in.read(data, 0, data.length)
-    in.close
-    (data, iv)
+  def save {
+    // encrypt the temporary file and overwrite the previous encrypted file
+    val data = readFile(temporaryFile)
+    val encData = encrypt(data, key)
+    writeFile(encData, encryptedFile)
   }
 
   def writeFile(array: Array[Byte], f: File) = {
@@ -87,22 +52,4 @@ object Pwkeeper {
     b.write(array, 0, array.size)
     b.close
   }
-
-  def encrypt(data: Array[Byte], key: SecretKeySpec) = {
-    val c = Cipher.getInstance(cipher)
-    c.init(Cipher.ENCRYPT_MODE, key);
-    val encData = c.doFinal(data);
-    val iv = c.getIV
-    val out = new ByteArrayOutputStream
-    out.write(iv, 0, iv.size)
-    out.write(encData, 0, encData.size)
-    out.toByteArray
-  }
-
-  def decrypt(data: Array[Byte], iv: Array[Byte], key: SecretKeySpec) = {
-    val c = Cipher.getInstance(cipher)
-    c.init(Cipher.DECRYPT_MODE, key, new IvParameterSpec(iv))
-    c.doFinal(data)
-  }
-
 }
