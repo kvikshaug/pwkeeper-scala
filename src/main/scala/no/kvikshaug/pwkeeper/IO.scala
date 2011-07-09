@@ -12,9 +12,6 @@ object IO {
 	}
 
 	def write(b: Array[Byte], f: File) = {
-    /*if(!f.exists) {
-      f.createNewFile
-    }*/
     val out = new BufferedOutputStream(new FileOutputStream(f))
     out.write(b, 0, b.size)
     out.close
