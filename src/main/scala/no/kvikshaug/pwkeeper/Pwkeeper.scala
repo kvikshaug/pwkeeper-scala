@@ -33,13 +33,13 @@ object Pwkeeper {
     val s = new Scanner(System.in)
     print("Usage for the new password: ")
     val usage = s.nextLine
-    var pw = Pwgen.generate()
+    var pw = new String(Pwgen.generate())
     print("Password [" + new String(pw) + "]: ")
-    val userPw = s.nextLine.getBytes
+    val userPw = s.nextLine
     if(!userPw.isEmpty) {
       pw = userPw
     }
-    val json = generate(Password(usage, List(pw.toList)) :: readPasswords)
+    val json = generate(Password(usage, List(pw)) :: readPasswords)
     val encData = Crypt.encrypt(json.getBytes)
     IO.write(encData, encryptedFile)
   }
