@@ -14,11 +14,11 @@ object Pwkeeper {
       args.toList match {
         case "generate" :: Nil        => println(new String(Pwgen.generate()))
         case "generate" :: len :: Nil => println(new String(Pwgen.generate(len.toInt)))
-        case "search" :: Nil          => search()
+        case "search" :: Nil          => Searcher.search(readPasswords)
         case "add" :: Nil             => add
         case "edit" :: Nil            => edit
         case "save" :: Nil            => save
-        case Nil                      => search()
+        case Nil                      => Searcher.search(readPasswords)
         case _                        => println(help)
       }
     } catch {
@@ -28,12 +28,6 @@ object Pwkeeper {
   }
 
   def readPasswords = parse[List[Password]](Crypt.decrypt(IO.read(encryptedFile)))
-
-  def search() {
-    Console.setTerminal
-    val passwords = readPasswords
-    Console.restoreTerminal
-  }
 
   def add {
     val s = new Scanner(System.in)
