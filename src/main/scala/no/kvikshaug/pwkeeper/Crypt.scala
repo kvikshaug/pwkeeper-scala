@@ -14,7 +14,7 @@ object Crypt {
   val keyLength = 256
 
   private def readKey = {
-    print("Enter key: "); val key = new Scanner(System.in).nextLine.getBytes; println
+    print("Enter key: "); val key = new Scanner(System.in).nextLine.getBytes
     if(key.length != keyLength / 8) {
       throw new IllegalArgumentException("They key must be " + 256 + " bit in size.")
     }
