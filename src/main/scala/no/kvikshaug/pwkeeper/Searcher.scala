@@ -18,7 +18,7 @@ object Searcher {
         case 10 => println; Console.restoreTerminal; return // LF
         case 27 => println; Console.restoreTerminal; return // ESC
         case 127 => buffer = buffer.take(buffer.length - 1)
-        case c => println("Some: " + c); buffer = buffer :+ c.asInstanceOf[Char]
+        case c => buffer = buffer :+ c.asInstanceOf[Char]
       }
     }
   }
