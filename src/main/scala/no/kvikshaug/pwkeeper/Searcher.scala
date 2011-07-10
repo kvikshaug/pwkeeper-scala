@@ -12,13 +12,22 @@ object Searcher {
       printHits(passwords)
       println
       printPrompt
-      while(System.in.available == 0) {}
       System.in.read match {
-        case 4  => println; Console.restoreTerminal; return // EOT
-        case 10 => println; Console.restoreTerminal; return // LF
-        case 27 => println; Console.restoreTerminal; return // ESC
+        case 4   => println; Console.restoreTerminal; return // EOT
+        case 10  => println; Console.restoreTerminal; return // LF
+        case 27  => println; Console.restoreTerminal; return // ESC
+        // emulate æøåÆØÅ
+        case 195 => System.in.read match {
+          case 166 => buffer = buffer :+ 'æ'
+          case 184 => buffer = buffer :+ 'ø'
+          case 165 => buffer = buffer :+ 'å'
+          case 134 => buffer = buffer :+ 'Æ'
+          case 152 => buffer = buffer :+ 'Ø'
+          case 133 => buffer = buffer :+ 'Å'
+        }
+        // backspace
         case 127 => buffer = buffer.take(buffer.length - 1)
-        case c => buffer = buffer :+ c.asInstanceOf[Char]
+        case c => buffer = buffer :+ c.toChar
       }
     }
   }
