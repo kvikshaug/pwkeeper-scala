@@ -26,7 +26,7 @@ object Searcher {
   def printPrompt = print("Search > " + new String(buffer.toArray))
   def printHits(passwords: List[Password]) = passwords foreach { x =>
     if(x.usage.contains(new String(buffer.toArray))) {
-      println(x.usage + tabs(x.usage.length) + new String(x.value.toArray))
+      println(x.usage + tabs(x.usage.length) + " '" + new String(x.value.toArray) + "'")
     }
   }
   // these are the characters outputted by /usr/bin/clear to clear the screen
