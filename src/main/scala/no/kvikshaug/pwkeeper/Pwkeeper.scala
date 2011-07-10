@@ -11,6 +11,10 @@ object Pwkeeper {
 
   def main(args: Array[String]): Unit = {
     try {
+      if(!tmpFile.exists && !encryptedFile.exists) {
+        doFirstTimeStuff
+        return
+      }
       args.toList match {
         case "generate" :: Nil        => println(new String(Pwgen.generate()))
         case "generate" :: len :: Nil => println(new String(Pwgen.generate(len.toInt)))
@@ -59,6 +63,27 @@ object Pwkeeper {
     tmpFile.delete
     println("Removed " + tmpFile.getAbsolutePath)
     println("Wrote encrypted data to " + encryptedFile.getAbsolutePath)
+  }
+
+  def doFirstTimeStuff {
+    println()
+    println("Welcome! Looks like your first time using Pwkeeper.")
+    println("=========================================================")
+    println("You'll need to give a 32-characted key used to encrypt your passwords.")
+    println("Here's a randomly generated one: " + new String(Pwgen.generate(32)))
+    println()
+    println("Note: Every time you save to the encrypted file, you can specify a new key.")
+    println("Warning: If you lose this key, you lose all the passwords saved in the encrypted file.")
+    println()
+    encryptedFile.createNewFile
+    val encData = Crypt.encrypt(List[Byte]('[', ']').toArray)
+    IO.write(encData, encryptedFile)
+    println()
+    println("Passwords are now stored in '" + encryptedFile.getAbsolutePath + "'.")
+    println("Call 'pw add' to add a password to it.")
+    println("Then call 'pw search' or 'pw edit' to find it again.")
+    println()
+    println("DON'T LOSE YOUR DECRYPTION KEY!")
   }
 
   val help = """Arguments:
