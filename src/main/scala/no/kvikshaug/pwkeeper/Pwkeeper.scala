@@ -39,7 +39,7 @@ object Pwkeeper {
     if(!userPw.isEmpty) {
       pw = userPw
     }
-    val json = generate(Password(usage, pw.toList) :: readPasswords)
+    val json = generate(Password(usage, List(pw.toList)) :: readPasswords)
     val encData = Crypt.encrypt(json.getBytes)
     IO.write(encData, encryptedFile)
   }

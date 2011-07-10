@@ -35,13 +35,9 @@ object Searcher {
   def printPrompt = print("Search > " + new String(buffer.toArray))
   def printHits(passwords: List[Password]) = passwords foreach { x =>
     if(x.usage.contains(new String(buffer.toArray))) {
-      println(x.usage + tabs(x.usage.length) + " '" + new String(x.value.toArray) + "'")
+      println(x)
     }
   }
   // these are the characters outputted by /usr/bin/clear to clear the screen
   def clear = print(new String(List[Byte](27, 91, 72, 27, 91, 50, 74).toArray))
-
-  val tabsize = 8
-  val columns = 4
-  def tabs(len: Int) = "\t" * (columns - (len / tabsize))
 }
