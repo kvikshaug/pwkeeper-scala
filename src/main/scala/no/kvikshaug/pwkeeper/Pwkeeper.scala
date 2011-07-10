@@ -48,7 +48,7 @@ object Pwkeeper {
     // decrypt the file and write it to a temporary file
     val decryptedData = Crypt.decrypt(IO.read(encryptedFile))
     IO.write(decryptedData, tmpFile)
-    println(tmpFile.getAbsolutePath)
+    println("Plaintext written to: " + tmpFile.getAbsolutePath)
   }
 
   def save {
@@ -57,6 +57,8 @@ object Pwkeeper {
     val encData = Crypt.encrypt(data)
     IO.write(encData, encryptedFile)
     tmpFile.delete
+    println("Removed " + tmpFile.getAbsolutePath)
+    println("Wrote encrypted data to " + encryptedFile.getAbsolutePath)
   }
 
   val help = """Arguments:
