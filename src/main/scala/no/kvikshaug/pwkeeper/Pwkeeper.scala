@@ -30,8 +30,9 @@ object Pwkeeper {
   def readPasswords = parse[List[Password]](Crypt.decrypt(IO.read(encryptedFile)))
 
   def search() {
+    Console.setTerminal
     val passwords = readPasswords
-    // TODO: jcurses?
+    Console.restoreTerminal
   }
 
   def add {
