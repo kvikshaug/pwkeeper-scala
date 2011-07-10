@@ -1,0 +1,7 @@
+#!/usr/bin/fish
+set PWKEEPER /path/to/pwkeeper
+set JERKSON /path/to/jerkson
+pushd $PWKEEPER
+scala -cp $PWKEEPER/pwkeeper_2.9.0-1-0.1.jar:$JERKSON/jerkson_2.9.0-1-0.3.2.jar:$JERKSON/jackson-core-asl-1.7.7.jar:$JERKSON/jackson-mapper-asl-1.7.7.jar no.kvikshaug.pwkeeper.Pwkeeper $argv
+popd
+
