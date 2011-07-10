@@ -1,0 +1,55 @@
+# Pwkeeper
+
+Pwkeeper stores your passwords, encrypted with AES. You only have to remember the 256-bit (= 32 chars) long key for decryption.
+
+The idea is that you never have to remember your passwords (other than the one used for this app). That way, your passwords can:
+
+* Use completely random letters and numbers
+* Be very very long
+* Never be re-used
+
+The backside is that you can't access your services if you don't have access to the password database (e.g. you're at a friends house and want to check your mail). Maybe a phone app should be made?
+
+## Again?
+
+Yes, this has been done before. I just wrote it because I wanted to. Also, I needed a reason to try out [Sublime Text](http://www.sublimetext.com/).
+
+## How?
+
+It is written purely in [Scala](http://www.scala-lang.org/) and depends only on [Jerkson](https://github.com/codahale/jerkson) for JSON-generating and -parsing. It is managed with [SBT](https://github.com/harrah/xsbt).
+
+## Details!
+
+The app is run from a terminal. Just put the 'pw' script in /usr/local/bin and call it whenever you need it.
+
+(*Note:* You need Scala installed.)
+
+(*Note:* Since you don't use [fish](http://fishshell.com), you might have to modify the 'pw' script a bit for your shell.)
+
+Then you run 'pw' from whereever, with one of these arguments:
+
+(*Note:* 'data' is the encrypted file, 'tmp' is a temporary decrypted plaintext file (with JSON data).)
+
+* **add** - Add a new password to 'data'
+* **search** - Decrypts 'data' to memory and lets you search for a password
+* **edit** - Decrypts 'data' and saves it to 'tmp' for editing.
+* **save** - Encrypts 'tmp', saves it to 'data', and deletes 'tmp'.
+* **generate** - Generates a random password using [a-zA-Z0-9] and default length
+* **generate &lt;len&gt;** - As above with specific length
+
+Passwords have the following structure:
+
+	(usage: String, values: List(String))
+
+Usage is a short text showing where you use the password, which you also can search for. Values is a list of all the passwords for that usage.
+
+## Soo.. Java on the console, eh?
+
+Yeah, it wasn't easy to get right, and there's still stuff that isn't exactly how I want it.
+
+Known issues:
+
+* Searches only handle ASCII chars. I've hardcoded handling of [æøåÆØÅ] since I'm norwegian and use those a lot.
+* When using 'pw add' and entering data, escape sequences (backspace, arrows etc.) aren't supported.
+* There should be more built-in functionality to edit the password list (renames, add/remove password, ++) so that using 'pw edit' can be avoided.
+* I'm sure there's more I forgot.
