@@ -13,8 +13,8 @@ object Crypt {
   val ivLength = 16
   val keyLength = 256
 
-  private def readKey = {
-    print("Enter key: "); val key = new Scanner(System.in).nextLine.getBytes
+  private def readKey(str: String) = {
+    print(str); val key = new Scanner(System.in).nextLine.getBytes
     if(key.length != keyLength / 8) {
       throw new IllegalArgumentException("They key must be " + 256 + " bit in size.")
     }
@@ -23,13 +23,13 @@ object Crypt {
 
   def decrypt(b: Array[Byte]): Array[Byte] = {
     val c = Cipher.getInstance(cipher)
-    c.init(Cipher.DECRYPT_MODE, readKey, new IvParameterSpec(b.take(ivLength)))
+    c.init(Cipher.DECRYPT_MODE, readKey("Please enter the decryption key: "), new IvParameterSpec(b.take(ivLength)))
     c.doFinal(b.drop(ivLength))
   }
 
   def encrypt(data: Array[Byte]) = {
     val c = Cipher.getInstance(cipher)
-    c.init(Cipher.ENCRYPT_MODE, readKey);
+    c.init(Cipher.ENCRYPT_MODE, readKey("Please enter an encryption key: "));
     val encrypted = c.doFinal(data);
     c.getIV ++ encrypted
   }
