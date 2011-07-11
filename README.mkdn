@@ -39,7 +39,7 @@ Then you run 'pw' from whereever, with one of these arguments:
 
 Passwords have the following structure:
 
-	(usage: String, values: List(String))
+	(usage: String, values: List[String])
 
 Usage is a short text showing where you use the password, which you also can search for. Values is a list of all the passwords for that usage.
 
