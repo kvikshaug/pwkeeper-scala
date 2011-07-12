@@ -34,7 +34,7 @@ object Searcher {
 
   def printPrompt = print("Search > " + new String(buffer.toArray))
   def printHits(passwords: List[Password]) = passwords foreach { x =>
-    if(x.usage.contains(new String(buffer.toArray))) {
+    if(x.usage.toLowerCase.contains(new String(buffer.toArray).toLowerCase)) {
       println(x)
     }
   }
