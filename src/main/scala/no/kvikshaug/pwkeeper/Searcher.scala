@@ -39,5 +39,5 @@ object Searcher {
     }
   }
   // these are the characters outputted by /usr/bin/clear to clear the screen
-  def clear = print(new String(List[Byte](27, 91, 72, 27, 91, 50, 74).toArray))
+  def clear = print(new String(Array[Byte](27, 91, 72, 27, 91, 50, 74)))
 }
