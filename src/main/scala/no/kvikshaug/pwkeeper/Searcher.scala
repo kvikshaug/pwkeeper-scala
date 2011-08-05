@@ -13,9 +13,9 @@ object Searcher {
       println
       printPrompt
       System.in.read match {
-        case 4   => println; Console.restoreTerminal; return // EOT
-        case 10  => println; Console.restoreTerminal; return // LF
-        case 27  => println; Console.restoreTerminal; return // ESC
+        case 4   => clear; Console.restoreTerminal; return // EOT
+        case 10  => clear; Console.restoreTerminal; return // LF
+        case 27  => clear; Console.restoreTerminal; return // ESC
         // emulate æøåÆØÅ
         case 195 => System.in.read match {
           case 166 => buffer = buffer :+ 'æ'
