@@ -70,7 +70,7 @@ object Pwkeeper {
     println("Welcome! Looks like your first time using Pwkeeper.")
     println("=========================================================")
     println("You'll need to give a 32-character key used to encrypt your passwords.")
-    println("Here's a randomly generated one: " + new String(Pwgen.generate(32)))
+    println("Here's a randomly generated one: " + new String(Pwgen.generate((Crypt.keyLength / 8))))
     println()
     println("Note: Every time you save to the encrypted file, you can specify a new key.")
     println("Warning: If you lose this key, you lose all the passwords saved in the encrypted file.")
