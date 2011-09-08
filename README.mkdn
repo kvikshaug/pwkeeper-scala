@@ -22,13 +22,7 @@ It is written purely in [Scala](http://www.scala-lang.org/) and depends only on 
 
 The app is run from a terminal. Just put the 'pw' script in /usr/local/bin and call it whenever you need it.
 
-(*Note:* You need Scala installed.)
-
-(*Note:* Since you don't use [fish](http://fishshell.com), you might have to modify the 'pw' script a bit for your shell.)
-
 Then you run 'pw' from whereever, with one of these arguments:
-
-(*Note:* 'data' is the encrypted file, 'tmp' is a temporary decrypted plaintext file (with JSON data).)
 
 * **add** - Add a new password to 'data'
 * **search** - Decrypts 'data' to memory and lets you search for a password
@@ -36,6 +30,12 @@ Then you run 'pw' from whereever, with one of these arguments:
 * **save** - Encrypts 'tmp', saves it to 'data', and deletes 'tmp'.
 * **generate** - Generates a random password using [a-zA-Z0-9] and default length
 * **generate &lt;len&gt;** - As above with specific length
+
+*Notes:*
+
+- 'data' is the encrypted file, 'tmp' is a temporary decrypted plaintext file (with JSON data).
+- You need Scala installed.
+- Since you don't use [fish](http://fishshell.com), you might have to modify the 'pw' script a bit for your shell.
 
 Passwords have the following structure:
 
