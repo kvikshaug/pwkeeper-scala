@@ -12,7 +12,7 @@ The backside is that you can't access your services if you don't have access to 
 
 ## Again?
 
-Yes, this has been done before. I just wrote it because I wanted to. Also, I needed a reason to try out [Sublime Text](http://www.sublimetext.com/).
+Yes, this has been done before. I just wrote it because I wanted to learn to create it, and I wanted a password manager i could trust completely (or blame myself for when it failed).
 
 ## How?
 
