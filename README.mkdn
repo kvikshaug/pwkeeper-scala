@@ -20,22 +20,22 @@ It is written purely in [Scala](http://www.scala-lang.org/) and depends only on 
 
 ## Details!
 
-The app is run from a terminal. Just put the 'pw' script in /usr/local/bin and call it whenever you need it.
+The app is run from a terminal. Just put the `pw` script in /usr/local/bin and call it whenever you need it.
 
-Then you run 'pw' from whereever, with one of these arguments:
+Then you run `pw` from whereever, with one of these arguments:
 
-* **add** - Add a new password to 'data'
-* **search** - Decrypts 'data' to memory and lets you search for a password
-* **edit** - Decrypts 'data' and saves it to 'tmp' for editing.
-* **save** - Encrypts 'tmp', saves it to 'data', and deletes 'tmp'.
+* **add** - Add a new password to `data`
+* **search** - Decrypts `data` to memory and lets you search for a password
+* **edit** - Decrypts `data` and saves it to `tmp` for editing.
+* **save** - Encrypts `tmp`, saves it to `data`, and deletes `tmp`.
 * **generate** - Generates a random password using [a-zA-Z0-9] and default length
 * **generate &lt;len&gt;** - As above with specific length
 
 *Notes:*
 
-- 'data' is the encrypted file, 'tmp' is a temporary decrypted plaintext file (with JSON data).
+- `data` is the encrypted file, `tmp` is a temporary decrypted plaintext file (with JSON data).
 - You need Scala installed.
-- Since you don't use [fish](http://fishshell.com), you might have to modify the 'pw' script a bit for your shell.
+- Since you don't use [fish](http://fishshell.com), you might have to modify the `pw` script a bit for your shell.
 
 Passwords have the following structure:
 
@@ -50,6 +50,6 @@ Yeah, it wasn't easy to get right, and there's still stuff that isn't exactly ho
 Known issues:
 
 * Searches only handle ASCII chars. I've hardcoded handling of [æøåÆØÅ] since I'm norwegian and use those a lot.
-* When using 'pw add' and entering data, escape sequences (backspace, arrows etc.) aren't supported.
-* There should be more built-in functionality to edit the password list (renames, add/remove password, ++) so that using 'pw edit' can be avoided.
+* When using `pw add` and entering data, escape sequences (backspace, arrows etc.) aren't supported.
+* There should be more built-in functionality to edit the password list (renames, add/remove password, ++) so that using `pw edit` can be avoided.
 * I'm sure there's more I forgot.
