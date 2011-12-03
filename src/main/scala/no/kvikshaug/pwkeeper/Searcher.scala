@@ -13,9 +13,9 @@ object Searcher {
       println
       printPrompt
       System.in.read match {
-        case 4   => clear; Console.restoreTerminal; return // EOT
-        case 10  => clear; Console.restoreTerminal; return // LF
-        case 27  => clear; Console.restoreTerminal; return // ESC
+        case 4   => clear; Console.restoreTerminal; setClipboard(passwords); return // EOT
+        case 10  => clear; Console.restoreTerminal; setClipboard(passwords); return // LF
+        case 27  => clear; Console.restoreTerminal; setClipboard(passwords); return // ESC
         // emulate æøåÆØÅ
         case 195 => System.in.read match {
           case 166 => buffer = buffer :+ 'æ'
@@ -40,4 +40,20 @@ object Searcher {
   }
   // these are the characters outputted by /usr/bin/clear to clear the screen
   def clear = print(new String(Array[Byte](27, 91, 72, 27, 91, 50, 74)))
+
+  def setClipboard(passwords: List[Password]) {
+    val cmd = Array("xclip", "-i")
+    val p = Runtime.getRuntime.exec(cmd)
+    val out = p.getOutputStream
+    passwords foreach { pass =>
+      if(pass.usage.toLowerCase.contains(new String(buffer.toArray).toLowerCase)) {
+        out.write(pass.values(0).getBytes)
+        out.close
+        p.waitFor
+        return
+      }
+    }
+    out.close
+    p.waitFor
+  }
 }

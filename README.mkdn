@@ -25,7 +25,7 @@ The app is run from a terminal. Just put the `pw` script in /usr/local/bin and c
 Then you run `pw` from whereever, with one of these arguments:
 
 * **add** - Add a new password to `data`
-* **search** - Decrypts `data` to memory and lets you search for a password
+* **search** - Decrypts `data` to memory, lets you search for a password and store it in xclipboard.
 * **edit** - Decrypts `data` and saves it to `tmp` for editing.
 * **save** - Encrypts `tmp`, saves it to `data`, and deletes `tmp`.
 * **generate** - Generates a random password using [a-zA-Z0-9] and default length
