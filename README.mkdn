@@ -18,6 +18,8 @@ Yes, this has been done before. I just wrote it because I wanted to learn to cre
 
 It is written purely in [Scala](http://www.scala-lang.org/) and depends only on [Jerkson](https://github.com/codahale/jerkson) for JSON-generating and -parsing. It is managed with [SBT](https://github.com/harrah/xsbt).
 
+*Note*: It now also depends on the 'sh' shell and a python installation (i.e. it calls 'python -m json.tool') for json prettifying.
+
 ## Details!
 
 The app is run from a terminal. Just put the `pw` script in /usr/local/bin and call it whenever you need it.

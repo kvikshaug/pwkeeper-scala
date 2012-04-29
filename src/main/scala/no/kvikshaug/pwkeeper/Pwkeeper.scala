@@ -52,6 +52,8 @@ object Pwkeeper {
     // decrypt the file and write it to a temporary file
     val decryptedData = Crypt.decrypt(IO.read(encryptedFile))
     IO.write(decryptedData, tmpFile)
+    val prettyData = Console.exec(Array("/bin/sh", "-c", "cat " + tmpFile.getAbsolutePath + " | python -m json.tool"))
+    IO.write(prettyData.getBytes, tmpFile)
     println("Plaintext written to: " + tmpFile.getAbsolutePath)
   }
 
